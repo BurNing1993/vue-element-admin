@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Layout */
-import View from '../views/view.vue';
+import Layout from '../layout/index.vue';
 
 Vue.use(Router);
 
@@ -37,7 +37,6 @@ export const constantRoutes = [
     hidden: true,
   },
 
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -45,18 +44,20 @@ export const constantRoutes = [
   },
 
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/dashboard/index'),
-    meta: { title: 'Dashboard', icon: 'dashboard' },
-  },
-  {
     path: '/',
+    component: Layout,
     redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: 'Dashboard', icon: 'dashboard' },
+    }],
   },
+
   {
     path: '/example',
-    component: View,
+    component: Layout,
     redirect: '/example/table',
     name: 'Example',
     meta: { title: 'Example', icon: 'example' },
@@ -78,14 +79,20 @@ export const constantRoutes = [
 
   {
     path: '/form',
-    name: 'Form',
-    component: () => import('@/views/form/index'),
-    meta: { title: 'Form', icon: 'form' },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' },
+      },
+    ],
   },
 
   {
     path: '/nested',
-    component: View,
+    component: Layout,
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
@@ -143,7 +150,7 @@ export const constantRoutes = [
 
   {
     path: 'external-link',
-    component: View,
+    component: Layout,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
