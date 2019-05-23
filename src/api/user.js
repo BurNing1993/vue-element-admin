@@ -1,24 +1,24 @@
-import request from '@/utils/request';
+import request from '../utils/request';
 
 export function login(data) {
   return request({
-    url: '/user/login',
-    method: 'post',
+    url: '/api/user/login',
+    method: 'POST',
     data,
   });
 }
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
-    method: 'get',
+    url: '/api/user/info',
+    method: 'GET',
     params: { token },
   });
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/api/user/logout',
     method: 'post',
   });
 }

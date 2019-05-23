@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Layout */
-import Layout from '@/layout';
+import Layout from '../layout/index.vue';
 
 Vue.use(Router);
 
@@ -164,7 +164,7 @@ export const constantRoutes = [
 ];
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes,
 });

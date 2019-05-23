@@ -4,6 +4,7 @@ import { resetRouter } from '@/router';
 
 
 const user = {
+  namespaced: true,
   state: {
     token: getToken(),
     name: '',
@@ -22,50 +23,43 @@ const user = {
   },
   actions: {
     // user login
-    login({ commit }, userInfo) {
-      const { username, password } = userInfo;
-      return new Promise((resolve, reject) => {
-        login({ username: username.trim(), password }).then((response) => {
-          const { data } = response;
-          commit('SET_TOKEN', data.token);
-          setToken(data.token);
-          resolve();
-        }).catch((error) => {
-          reject(error);
-        });
-      });
+    async login({ commit }, userInfo) {
+      try {
+        const res = await login(userInfo);
+        const { token } = res.data;
+        commit('SET_TOKEN', token);
+        setToken(token);
+        return res;
+      } catch (err) {
+        throw err;
+      }
     },
 
+
     // get user info
-    getInfo({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getInfo(state.token).then((response) => {
-          const { data } = response;
-          if (!data) {
-            throw new Error('Verification failed, please Login again.');
-          }
-          const { name, avatar } = data;
-          commit('SET_NAME', name);
-          commit('SET_AVATAR', avatar);
-          resolve(data);
-        }).catch((error) => {
-          reject(error);
-        });
-      });
+    async getInfo({ commit, state }) {
+      try {
+        const res = await getInfo(state.token);
+        const { name, avatar } = res.data;
+        commit('SET_NAME', name);
+        commit('SET_AVATAR', avatar);
+        return res;
+      } catch (err) {
+        throw err;
+      }
     },
 
     // user logout
-    logout({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '');
-          removeToken();
-          resetRouter();
-          resolve();
-        }).catch((error) => {
-          reject(error);
-        });
-      });
+    async logout({ commit, state }) {
+      try {
+        const res = await logout(state.token);
+        commit('SET_TOKEN', '');
+        removeToken();
+        resetRouter();
+        return res;
+      } catch (err) {
+        throw err;
+      }
     },
 
     // remove token

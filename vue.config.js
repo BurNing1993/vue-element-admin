@@ -8,6 +8,15 @@ function resolve(dir) {
 module.exports = {
   devServer: {
     port: 4000,
+    proxy: {
+      '/api': {
+        target: ' https://easy-mock.com/mock/5ba1bfc29f947e71d71e7070/admin', // 接口的域名
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
   },
   chainWebpack: (config) => {
     config.optimization.minimize(true);
