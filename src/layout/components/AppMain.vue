@@ -13,14 +13,17 @@ export default {
     key() {
       return this.$route.fullPath;
     },
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .app-main {
   /*50 = navbar  */
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 84px);
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -28,6 +31,7 @@ export default {
 .fixed-header+.app-main {
   padding-top: 50px;
 }
+ /* 84 = navbar + tags-view = 50 + 34 */
 </style>
 
 <style lang="scss">

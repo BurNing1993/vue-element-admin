@@ -7,23 +7,18 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <div class="user-name">{{name}}</div>
+          <img src="https://s2.ax1x.com/2019/03/27/AdPU3Q.png" alt="AdPU3Q.png" border="0" class="user-avatar"/>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">Log Out</span>
+            <span style="display:block;" @click="logout">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -45,6 +40,7 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
+      'name',
     ]),
   },
   methods: {
@@ -116,8 +112,12 @@ export default {
 
       .avatar-wrapper {
         margin-top: 5px;
-        position: relative;
-
+        display: flex;
+        .user-name{
+          cursor: pointer;
+          line-height: 40px;
+          letter-spacing: 2px;
+        }
         .user-avatar {
           cursor: pointer;
           width: 40px;

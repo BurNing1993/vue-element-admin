@@ -2,23 +2,32 @@ import request from '../utils/request';
 
 export function login(data) {
   return request({
-    url: '/api/user/login',
+    url: '/sso/login',
     method: 'POST',
     data,
   });
 }
 
-export function getInfo(token) {
+export function getInfo(sysId) {
   return request({
-    url: '/api/user/info',
+    url: '/sso/getUserDetail',
     method: 'GET',
-    params: { token },
+    params: { sysId },
   });
 }
 
+
 export function logout() {
   return request({
-    url: '/api/user/logout',
-    method: 'post',
+    url: '/sso/logout',
+    method: 'POST',
+  });
+}
+
+export function getAuthList(menuId) {
+  return request({
+    url: '/sso/menus/getChildrenMenus',
+    method: 'GET',
+    params: { menuId },
   });
 }

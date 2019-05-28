@@ -58,27 +58,24 @@
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
       </div>
-
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate';
-
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'));
+      if (value.length < 0) {
+        callback(new Error('请输入正确的用户名!'));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'));
+        callback(new Error('请输入正确的密码!'));
       } else {
         callback();
       }
@@ -86,7 +83,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111',
+        password: '123456',
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -189,7 +186,7 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
-  min-height: 100%;
+  min-height: calc(100vh - 120px);
   width: 100%;
   background-color: $bg;
   overflow: hidden;

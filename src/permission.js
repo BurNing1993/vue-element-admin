@@ -1,39 +1,40 @@
-import router from './router';
-import store from './store';
 import { Message } from 'element-ui';
-import NProgress from 'nprogress'; // progress bar
-import 'nprogress/nprogress.css'; // progress bar style
-import { getToken } from '@/utils/auth'; // get token from cookie
+import router, { asyncRouterMap } from './router';
+import store from './store';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import { getToken, getSys } from '@/utils/auth';
+import { treeToArray, generateRouter } from './utils';
 import getPageTitle from '@/utils/get-page-title';
 
-NProgress.configure({ showSpinner: false }); // NProgress Configuration
+NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login']; // no redirect whitelist
+const whiteList = ['/login'];
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
   document.title = getPageTitle(to.meta.title);
-
-  const hasToken = getToken();
-
-  if (hasToken) {
+  const token = to.query.accessToken || getToken();
+  const sysId = to.query.sysId || getSys();
+  if (token && sysId) {
     if (to.path === '/login') {
-      next({ path: '/' });
+      next();
       NProgress.done();
+    } else if (store.getters.roles.length > 0) {
+      next();
     } else {
-      const hasGetUserInfo = store.getters.name;
-      if (hasGetUserInfo) {
-        next();
-      } else {
-        try {
-          await store.dispatch('user/getInfo');
-          next();
-        } catch (error) {
-          await store.dispatch('user/resetToken');
-          Message.error(error || 'Has Error');
-          next(`/login?redirect=${to.path}`);
-          NProgress.done();
-        }
+      try {
+        const { menus, roles } = await store.dispatch('user/getInfo');
+        const asyncRouters = generateRouter(menus, roles, treeToArray(asyncRouterMap));
+        await store.dispatch('permission/generateRoutes', { roles, asyncRouters });
+        router.addRoutes(store.getters.addRouters);
+        next({ ...to, replace: true });
+      } catch (error) {
+        await store.dispatch('user/resetToken');
+        console.log(error);
+        Message.error(error || 'Has Error');
+        next(`/login?redirect=${to.path}`);
+        NProgress.done();
       }
     }
   } else if (whiteList.indexOf(to.path) !== -1) {

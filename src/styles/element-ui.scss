@@ -42,3 +42,33 @@
     display: block
   }
 }
+
+
+.el-table__body tr.hover-row > td, .el-table__body tr.hover-row.current-row > td, .el-table__body tr.hover-row.el-table__row--striped > td, .el-table__body tr.hover-row.el-table__row--striped.current-row > td{
+  background-color: rgba(242,242,242,0.9) !important;
+}
+
+.el-menu--popup {
+  padding: 0;
+}
+
+.table-header{
+  background-color: rgba(245,247,250,0.9) !important;
+}
+.el-table{
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.el-dialog__body {
+  padding: 30px 0 !important;
+}
+.tree{
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.el-tree-node__label{
+  padding: 5px 0;
+}
+.el-tree-node__content{
+  height: 40px;
+}
