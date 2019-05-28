@@ -14,6 +14,7 @@ module.exports = {
     'consistent-return': 'off',
     'max-len': ['error', { code: 150 }],
     'no-param-reassign': 'off',
+    'array-callback-return': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',
